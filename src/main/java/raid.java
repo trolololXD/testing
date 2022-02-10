@@ -1,9 +1,9 @@
-import com.sun.javafx.runtime.SystemProperties;
 import org.sikuli.script.*;
 
 public class raid {
     public static void main(String[] args)throws Exception {
-        String strImagePath = raid.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "image/";
+        String[] strPath = raid.class.getProtectionDomain().getCodeSource().getLocation().getPath().split("/");
+        String strImagePath = getPathExisting(strPath) + "image\\";
         Screen screen = new Screen();
 
         for (int i = 0; i < 100; i++) {
@@ -40,7 +40,7 @@ public class raid {
     }
 
 
-    private static void clickImage(Screen screen, String img) {
+    private static void clickImage(Screen screen, String img)throws Exception {
         boolean isClicked = false;
         while (!isClicked) {
             try {
@@ -49,7 +49,7 @@ public class raid {
                 matchImage.click();
                 isClicked = true;
             } catch (FindFailed e) {
-                System.out.println("Retrying to click the image..." + img.split("\\\\")[8]);
+                System.out.println("Retrying to click the image...");
             }
         }
     }
@@ -93,6 +93,14 @@ public class raid {
             }
             Thread.sleep(1000);
         }
+    }
+
+    public static String getPathExisting(String[] strAbsolutePath) {
+        String strTemp = "";
+        for (int i = 0; i < strAbsolutePath.length - 1; i++) {
+            strTemp += strAbsolutePath[i].replace("%20"," ") + "\\";
+        }
+        return strTemp;
     }
     //end of line
 }
