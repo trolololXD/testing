@@ -20,6 +20,7 @@ public class event_auto {
                 }
                 umamusume.clickImage(screen,strImagePath , "imgDjeetaRelicBuster" + ".png");
                 umamusume.clickImage(screen,strImagePath , "btnEngage" + ".png");
+                //v.1.2.0
                 umamusume.clickImage(screen,strImagePath , "btnLimitBurst" + ".png");
             }
             umamusume.clickImage(screen,strImagePath , "btnAtk" + ".png");
