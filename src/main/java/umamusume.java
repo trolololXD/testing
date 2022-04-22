@@ -14,7 +14,6 @@ public class umamusume {
     public static int intTotalLoop;
     public static int intWaitTime;
     public static boolean isOugi;
-    public static boolean isFullAuto;
 
     public static void main(String[] args)throws Exception {
         String[] strPath = umamusume.class.getProtectionDomain().getCodeSource().getLocation().getPath().split("/");
@@ -28,7 +27,7 @@ public class umamusume {
         intWaitTime = Integer.parseInt(prop.get("wait_time").toString());
         isRelicBuster = Boolean.parseBoolean(prop.get("Relic_Buster").toString());
         isOugi = Boolean.parseBoolean(prop.get("Ougi").toString());
-        isFullAuto = Boolean.parseBoolean(prop.get("full_auto").toString());
+
 
         if(strAutomationType.equals("event_auto")){
             event_auto objEventAuto = new event_auto();

@@ -4,6 +4,7 @@ public class full_auto {
     public void run(Screen screen, String strImagePath, int intTotalLoop, int intWaitTime)throws Exception{
         for (int i = 0; i < intTotalLoop; i++) {
             umamusume.clickImage(screen, strImagePath , "imgUmamusume" + ".png");
+            umamusume.waitUntilImage(screen,strImagePath , "btnSelectSummon" + ".png");
             umamusume.clickImage(screen,strImagePath , "btnSelectSummon" + ".png");
             umamusume.clickImage(screen,strImagePath , "btnOK" + ".png");
             Thread.sleep(intWaitTime);
