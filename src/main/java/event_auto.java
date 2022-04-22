@@ -18,12 +18,11 @@ public class event_auto {
                 if(umamusume.isExistScreen(screen,strImagePath , "btnOugiOff" + ".png")){
                     umamusume.clickImage(screen,strImagePath , "btnOugiOff" + ".png");
                 }
+                umamusume.clickImage(screen,strImagePath , "btnSummon" + ".png");
                 umamusume.clickImage(screen,strImagePath , "imgDjeetaRelicBuster" + ".png");
                 umamusume.clickImage(screen,strImagePath , "btnEngage" + ".png");
                 //v.1.2.0
                 umamusume.clickImage(screen,strImagePath , "btnLimitBurst" + ".png");
-                
-                umamusume.clickImage(screen,strImagePath , "btnSummon" + ".png");
             }
             umamusume.clickImage(screen,strImagePath , "btnAtk" + ".png");
             umamusume.clickImage(screen,strImagePath , "btnSemiAuto" + ".png");
