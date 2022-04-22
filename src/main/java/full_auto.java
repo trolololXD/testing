@@ -22,7 +22,6 @@ public class full_auto {
             umamusume.waitUntilImage(screen,strImagePath , "btnSummon" + ".png");
             Thread.sleep(intWaitTime);
             umamusume.clickImage(screen,strImagePath , "btnSummon" + ".png");
-            umamusume.clickImage(screen,strImagePath , "btnAtk" + ".png");
             umamusume.clickImage(screen,strImagePath , "btnFullAuto" + ".png");
             umamusume.waitUntilImage(screen,strImagePath , "btnOK" + ".png");
             umamusume.clickImage(screen,strImagePath , "btnOK" + ".png");
