@@ -18,6 +18,7 @@ public class event_auto {
                 if(umamusume.isExistScreen(screen,strImagePath , "btnOugiOff" + ".png")){
                     umamusume.clickImage(screen,strImagePath , "btnOugiOff" + ".png");
                 }
+                umamusume.waitUntilImage(screen,strImagePath , "btnSummon" + ".png");
                 umamusume.clickImage(screen,strImagePath , "btnSummon" + ".png");
                 umamusume.clickImage(screen,strImagePath , "imgDjeetaRelicBuster" + ".png");
                 umamusume.clickImage(screen,strImagePath , "btnEngage" + ".png");
