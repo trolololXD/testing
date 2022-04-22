@@ -5,7 +5,7 @@ public class full_auto {
         for (int i = 0; i < intTotalLoop; i++) {
             umamusume.clickImage(screen, strImagePath , "imgUmamusume" + ".png");
             umamusume.waitUntilImage(screen,strImagePath , "btnSelectSummon" + ".png");
-            umamusume.clickImage(screen,strImagePath , "btnSelectSummon" + ".png");
+            umamusume.findSummon(screen,strImagePath);
             umamusume.clickImage(screen,strImagePath , "btnOK" + ".png");
             Thread.sleep(intWaitTime);
 

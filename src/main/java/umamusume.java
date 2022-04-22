@@ -2,6 +2,8 @@ import org.python.google.common.base.Stopwatch;
 import org.sikuli.script.*;
 import org.springframework.util.StopWatch;
 
+import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.io.FileInputStream;
 import java.time.Duration;
 import java.util.List;
@@ -14,6 +16,7 @@ public class umamusume {
     public static int intTotalLoop;
     public static int intWaitTime;
     public static boolean isOugi;
+    public static String Summon1,Summon2,Summon3;
 
     public static void main(String[] args)throws Exception {
         String[] strPath = umamusume.class.getProtectionDomain().getCodeSource().getLocation().getPath().split("/");
@@ -27,18 +30,24 @@ public class umamusume {
         intWaitTime = Integer.parseInt(prop.get("wait_time").toString());
         isRelicBuster = Boolean.parseBoolean(prop.get("Relic_Buster").toString());
         isOugi = Boolean.parseBoolean(prop.get("Ougi").toString());
+        Summon1 = prop.get("Summon1").toString();
+        Summon2 = prop.get("Summon2").toString();
 
-
-        if(strAutomationType.equals("event_auto")){
-            event_auto objEventAuto = new event_auto();
-            objEventAuto.run(screen, strImagePath, intTotalLoop, intWaitTime);
-        }else if(strAutomationType.equals("raid_auto")){
-            raid_auto objRaidAuto = new raid_auto();
-            objRaidAuto.run(screen, strImagePath, intTotalLoop, intWaitTime);
-        }else if(strAutomationType.equals("full_auto")){
-            full_auto objFullAuto = new full_auto();
-            objFullAuto.run(screen, strImagePath, intTotalLoop, intWaitTime);
+        try{
+            if(strAutomationType.equals("event_auto")){
+                event_auto objEventAuto = new event_auto();
+                objEventAuto.run(screen, strImagePath, intTotalLoop, intWaitTime);
+            }else if(strAutomationType.equals("raid_auto")){
+                raid_auto objRaidAuto = new raid_auto();
+                objRaidAuto.run(screen, strImagePath, intTotalLoop, intWaitTime);
+            }else if(strAutomationType.equals("full_auto")){
+                full_auto objFullAuto = new full_auto();
+                objFullAuto.run(screen, strImagePath, intTotalLoop, intWaitTime);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
         }
+
     }
 
     public static void useElixir(Screen screen, String imgPath, String imgName){
@@ -157,6 +166,29 @@ public class umamusume {
             System.out.println("FAILED READING CONFIG FILE...");
         }
         return prop;
+    }
+
+    public static void findSummon(Screen screen, String imgPath)throws Exception{
+        boolean isFound = false;
+        String img = imgPath + Summon1;
+        int Counter = 0;
+        while(!isFound){
+            try{
+                Match matchByText = screen.find(img);
+                matchByText.click();
+                isFound = true;
+            }catch(Exception e){
+                Robot robot = new Robot();
+                robot.keyPress(KeyEvent.VK_PAGE_DOWN);
+                Thread.sleep(1000);
+                Counter++;
+                if(Counter >= 4){
+                    robot.keyPress(KeyEvent.VK_HOME);
+                    Thread.sleep(1000);
+                    img = imgPath + Summon2;
+                }
+            }
+        }
     }
 
     //end of line
