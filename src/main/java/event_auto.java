@@ -27,10 +27,14 @@ public class event_auto {
             }
             umamusume.clickImage(screen,strImagePath , "btnAtk" + ".png");
             umamusume.clickImage(screen,strImagePath , "btnSemiAuto" + ".png");
+             Thread.sleep(2*intWaitTime);
+            umamusume.clickImage(screen, strImagePath , "imgUmamusume" + ".png");
             umamusume.waitUntilImage(screen,strImagePath , "btnOK" + ".png");
             umamusume.clickImage(screen,strImagePath , "btnOK" + ".png");
         }
+        System.exit(0);
     }
+
 
 }
 
