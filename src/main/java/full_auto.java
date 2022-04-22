@@ -1,8 +1,8 @@
 import org.sikuli.script.Screen;
 
-public class event_auto {
+public class full_auto {
     public void run(Screen screen, String strImagePath, int intTotalLoop, int intWaitTime)throws Exception{
-         for (int i = 0; i < intTotalLoop; i++) {
+        for (int i = 0; i < intTotalLoop; i++) {
             umamusume.clickImage(screen, strImagePath , "imgUmamusume" + ".png");
             umamusume.clickImage(screen,strImagePath , "btnSelectSummon" + ".png");
             umamusume.clickImage(screen,strImagePath , "btnOK" + ".png");
@@ -14,22 +14,15 @@ public class event_auto {
                 umamusume.clickImage(screen,strImagePath , "btnOK" + ".png");
             }
 
-            if(umamusume.isRelicBuster){
-                if(umamusume.isExistScreen(screen,strImagePath , "btnOugiOff" + ".png")){
-                    umamusume.clickImage(screen,strImagePath , "btnOugiOff" + ".png");
-                }
-                umamusume.waitUntilImage(screen,strImagePath , "btnSummon" + ".png");
-                Thread.sleep(intWaitTime);
-                umamusume.clickImage(screen,strImagePath , "btnSummon" + ".png");
-                umamusume.clickImage(screen,strImagePath , "imgDjeetaRelicBuster" + ".png");
-                umamusume.clickImage(screen,strImagePath , "btnEngage" + ".png");
-                //v.1.2.0
-                umamusume.clickImage(screen,strImagePath , "btnLimitBurst" + ".png");
+            if(umamusume.isOugi){
+              if(umamusume.isExistScreen(screen,strImagePath , "btnOugiOff" + ".png"))
+                  umamusume.clickImage(screen,strImagePath , "btnOugiOff" + ".png");
             }
+            umamusume.waitUntilImage(screen,strImagePath , "btnSummon" + ".png");
+            Thread.sleep(intWaitTime);
+            umamusume.clickImage(screen,strImagePath , "btnSummon" + ".png");
             umamusume.clickImage(screen,strImagePath , "btnAtk" + ".png");
-            umamusume.clickImage(screen,strImagePath , "btnSemiAuto" + ".png");
-             Thread.sleep(2*intWaitTime);
-            umamusume.clickImage(screen, strImagePath , "imgUmamusume" + ".png");
+            umamusume.clickImage(screen,strImagePath , "btnFullAuto" + ".png");
             umamusume.waitUntilImage(screen,strImagePath , "btnOK" + ".png");
             umamusume.clickImage(screen,strImagePath , "btnOK" + ".png");
         }
