@@ -14,18 +14,22 @@ public class event_auto {
                 umamusume.clickImage(screen,strImagePath , "btnOK" + ".png");
             }
 
+             umamusume.waitUntilImage(screen,strImagePath , "btnSummon" + ".png");
+             Thread.sleep(intWaitTime);
+             if(umamusume.QuickSummon){
+                 umamusume.clickImage(screen,strImagePath , "btnSummon" + ".png");
+             }
+
             if(umamusume.isRelicBuster){
                 if(umamusume.isExistScreen(screen,strImagePath , "btnOugiOff" + ".png")){
                     umamusume.clickImage(screen,strImagePath , "btnOugiOff" + ".png");
                 }
-                umamusume.waitUntilImage(screen,strImagePath , "btnSummon" + ".png");
-                Thread.sleep(intWaitTime);
-                umamusume.clickImage(screen,strImagePath , "btnSummon" + ".png");
                 umamusume.clickImage(screen,strImagePath , "imgDjeetaRelicBuster" + ".png");
                 umamusume.clickImage(screen,strImagePath , "btnEngage" + ".png");
                 //v.1.2.0
                 umamusume.clickImage(screen,strImagePath , "btnLimitBurst" + ".png");
             }
+
             umamusume.clickImage(screen,strImagePath , "btnAtk" + ".png");
             umamusume.clickImage(screen,strImagePath , "btnSemiAuto" + ".png");
              Thread.sleep(2*intWaitTime);

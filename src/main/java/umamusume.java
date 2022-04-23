@@ -15,7 +15,7 @@ public class umamusume {
     public static boolean isRelicBuster;
     public static int intTotalLoop;
     public static int intWaitTime;
-    public static boolean isOugi;
+    public static boolean isOugi,QuickSummon;
     public static String Summon1,Summon2,Summon3;
 
     public static void main(String[] args)throws Exception {
@@ -32,6 +32,7 @@ public class umamusume {
         isOugi = Boolean.parseBoolean(prop.get("Ougi").toString());
         Summon1 = prop.get("Summon1").toString();
         Summon2 = prop.get("Summon2").toString();
+        QuickSummon = Boolean.parseBoolean(prop.get("Quick_Summon").toString());
 
         try{
             if(strAutomationType.equals("event_auto")){
