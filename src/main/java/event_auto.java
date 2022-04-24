@@ -8,6 +8,10 @@ public class event_auto {
             umamusume.clickImage(screen,strImagePath , "btnOK" + ".png");
             Thread.sleep(intWaitTime);
 
+             if(umamusume.isExistScreen(screen,strImagePath, "txtCaptcha" + ".png")){
+                 umamusume.PlaySong(strImagePath);
+             }
+
             if(umamusume.isExistScreen(screen,strImagePath , "imgElixir" + ".png")){
                 umamusume.waitUntilImage(screen,strImagePath , "btnUse" + ".png");
                 umamusume.useElixir(screen,strImagePath , "btnUse" + ".png");

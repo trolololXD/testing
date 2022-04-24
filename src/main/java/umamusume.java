@@ -1,7 +1,7 @@
 import org.python.google.common.base.Stopwatch;
 import org.sikuli.script.*;
 import org.springframework.util.StopWatch;
-
+import javazoom.jl.player.Player;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.FileInputStream;
@@ -190,6 +190,12 @@ public class umamusume {
                 }
             }
         }
+    }
+
+    public static void PlaySong(String imgPath)throws Exception{
+        FileInputStream fs = new FileInputStream(imgPath + "Hatsune Miku - Levan Polka.mp3");
+        Player player = new Player(fs);
+        player.play();
     }
 
     //end of line

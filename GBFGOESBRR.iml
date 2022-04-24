@@ -12,7 +12,6 @@
     <orderEntry type="jdk" jdkName="corretto-1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="jar sikuli 2.0" level="project" />
-    <orderEntry type="library" exported="" name="jarrr" level="project" />
-    <orderEntry type="library" name="slf4j-api-1.7.2" level="project" />
+    <orderEntry type="library" name="jlayer-1.0.1.4" level="project" />
   </component>
 </module>
