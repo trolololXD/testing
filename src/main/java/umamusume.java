@@ -1,9 +1,12 @@
 import javazoom.jl.player.JavaSoundAudioDevice;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.python.google.common.base.Stopwatch;
 import org.sikuli.script.*;
 import org.springframework.util.StopWatch;
 import javazoom.jl.player.Player;
-
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.Mixer;
 import java.awt.*;
@@ -15,20 +18,23 @@ import java.util.Properties;
 import java.util.Timer;
 
 public class umamusume {
-
+    public static WebDriver webDriver;
     public static boolean isRelicBuster;
     public static int intTotalLoop;
     public static int intWaitTime;
     public static boolean isOugi,QuickSummon;
-    public static String Summon1,Summon2,Summon3;
+    public static String strImagePath, Summon1,Summon2,Summon3,strPhone;
+    public static Screen screen;
 
     public static void main(String[] args)throws Exception {
         String[] strPath = umamusume.class.getProtectionDomain().getCodeSource().getLocation().getPath().split("/");
-        String strImagePath = getPathExisting(strPath) + "image\\";
+        strImagePath = getPathExisting(strPath) + "image\\";
         Properties prop = new Properties();
         String strConfigName = "config.cfg";
         loadConfig(prop,strConfigName);
-        Screen screen = new Screen();
+        screen = new Screen();
+
+        //get config data
         String strAutomationType = prop.get("automation_type").toString();
         intTotalLoop = Integer.parseInt(prop.get("total_loop").toString());
         intWaitTime = Integer.parseInt(prop.get("wait_time").toString());
@@ -37,6 +43,10 @@ public class umamusume {
         Summon1 = prop.get("Summon1").toString();
         Summon2 = prop.get("Summon2").toString();
         QuickSummon = Boolean.parseBoolean(prop.get("Quick_Summon").toString());
+        strPhone = prop.get("Phone").toString();
+
+        System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\chromedriver.exe");
+        sendWA(strPhone);
 
         try{
             if(strAutomationType.equals("event_auto")){
@@ -203,6 +213,25 @@ public class umamusume {
         FileInputStream fs = new FileInputStream(imgPath + "Hatsune Miku - Levan Polka.mp3");
         Player player = new Player(fs);
         player.play();
+    }
+
+    public static void CaptchaCheck(Screen screen, String imgPath)throws Exception{
+        if(umamusume.isExistScreen(screen,imgPath, "btnSummon" + ".png")){
+            do{
+                umamusume.PlaySong(imgPath);
+                sendWA(strPhone);
+            }while(umamusume.isExistScreen(screen,imgPath, "txtCaptcha" + ".png"));
+        }
+    }
+
+    public static void sendWA(String strPhone)throws Exception{
+        webDriver = new ChromeDriver();
+        String strUrlWA = "https://api.whatsapp.com/send?phone="+strPhone+"&text=CAPTCHA";
+        webDriver.get(strUrlWA);
+        clickImage(screen, strImagePath, "openWhatsapp.png");
+        Thread.sleep(5000);
+        Robot robot = new Robot();
+        robot.keyPress(KeyEvent.VK_ENTER);
     }
 
     //end of line
