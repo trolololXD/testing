@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="gbf-auto:jar">
+  <artifact type="jar" name="gbf_auto:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/gbf_auto_jar</output-path>
     <root id="archive" name="gbf-auto.jar">
       <element id="directory" name="META-INF">
@@ -44,6 +44,8 @@
       <element id="extracted-dir" path="$PROJECT_DIR$/../lib/jar sikuli 2.0.5/spring-beans-5.0.5.RELEASE.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../lib/jar sikuli 2.0.5/spring-context-5.0.5.RELEASE.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../lib/jar sikuli 2.0.5/spring-expression-5.0.5.RELEASE.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../lib/jar_files (1)/jlayer-1.0.1.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../lib/jar_files (1)/junit-3.8.2.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

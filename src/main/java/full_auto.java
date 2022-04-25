@@ -10,7 +10,9 @@ public class full_auto {
             Thread.sleep(intWaitTime);
 
             if(umamusume.isExistScreen(screen,strImagePath, "txtCaptcha" + ".png")){
-                umamusume.PlaySong(strImagePath);
+                do{
+                    umamusume.PlaySong(strImagePath);
+                }while(umamusume.isExistScreen(screen,strImagePath, "txtCaptcha" + ".png"));
             }
 
             if(umamusume.isExistScreen(screen,strImagePath , "imgElixir" + ".png")){
@@ -25,7 +27,6 @@ public class full_auto {
             }
             umamusume.waitUntilImage(screen,strImagePath , "btnSummon" + ".png");
             Thread.sleep(intWaitTime);
-            umamusume.clickImage(screen,strImagePath , "btnSummon" + ".png");
             umamusume.clickImage(screen,strImagePath , "btnFullAuto" + ".png");
             umamusume.waitUntilImage(screen,strImagePath , "btnOK" + ".png");
             umamusume.clickImage(screen,strImagePath , "btnOK" + ".png");

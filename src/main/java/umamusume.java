@@ -1,7 +1,11 @@
+import javazoom.jl.player.JavaSoundAudioDevice;
 import org.python.google.common.base.Stopwatch;
 import org.sikuli.script.*;
 import org.springframework.util.StopWatch;
 import javazoom.jl.player.Player;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.Mixer;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.FileInputStream;
@@ -156,6 +160,9 @@ public class umamusume {
                 isExist = true;
             }catch (FindFailed e) {
                 System.out.println("Retrying to click the image..." + imgName);
+                if(umamusume.isExistScreen(screen, imgPath, "imgBuff" + ".png")){
+                    umamusume.clickImage(screen,imgPath , "btnSummon" + ".png");
+                }
             }
         }
     }
