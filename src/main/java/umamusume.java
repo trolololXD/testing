@@ -45,8 +45,9 @@ public class umamusume {
         QuickSummon = Boolean.parseBoolean(prop.get("Quick_Summon").toString());
         strPhone = prop.get("Phone").toString();
 
+        //set chromedriver path
         System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\chromedriver.exe");
-        sendWA(strPhone);
+        System.out.println(System.getProperty("webdriver.chrome.driver"));
 
         try{
             if(strAutomationType.equals("event_auto")){
@@ -216,7 +217,8 @@ public class umamusume {
     }
 
     public static void CaptchaCheck(Screen screen, String imgPath)throws Exception{
-        if(umamusume.isExistScreen(screen,imgPath, "btnSummon" + ".png")){
+        if(umamusume.isExistScreen(screen,imgPath, "txtCaptcha" + ".png") || umamusume.isExistScreen(screen,imgPath, "txtEnterVerification" + ".png") ||
+                umamusume.isExistScreen(screen,imgPath, "txtVerification" + ".png")){
             do{
                 umamusume.PlaySong(imgPath);
                 sendWA(strPhone);
