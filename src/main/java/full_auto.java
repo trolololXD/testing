@@ -21,9 +21,12 @@ public class full_auto {
               if(umamusume.isExistScreen(screen,strImagePath , "btnOugiOff" + ".png"))
                   umamusume.clickImage(screen,strImagePath , "btnOugiOff" + ".png");
             }
-            umamusume.waitUntilImage(screen,strImagePath , "btnSummon" + ".png");
+            umamusume.waitUntilImage(screen,strImagePath , "btnFullAuto" + ".png");
             Thread.sleep(intWaitTime);
             umamusume.clickImage(screen,strImagePath , "btnFullAuto" + ".png");
+            umamusume.clickImage(screen,strImagePath , "imgSummon" + ".png");
+            umamusume.waitUntilImage(screen,strImagePath , "imgSummonToCall" + ".png");
+            umamusume.clickImage(screen,strImagePath , "imgSummonToCall" + ".png");
             umamusume.waitUntilImage(screen,strImagePath , "btnOK" + ".png");
             umamusume.clickImage(screen,strImagePath , "btnOK" + ".png");
         }

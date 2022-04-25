@@ -92,11 +92,9 @@ public class umamusume {
                 if(img.contains("btnUse")){
                    List<Match> iterMatch = screen.findAllList(new Pattern(img));
                    Match matchImage = iterMatch.get(1);
-                   matchImage.mouseMove();
                    matchImage.click();
                 }else{
                     Match matchImage = screen.find(new Pattern(img));
-                    matchImage.mouseMove();
                     matchImage.click();
                 }
                 isClicked = true;
