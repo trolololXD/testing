@@ -23,7 +23,7 @@ public class umamusume {
     public static int intTotalLoop;
     public static int intWaitTime;
     public static boolean isOugi,QuickSummon, isSlimeBlast;
-    public static String strImagePath, Summon1,Summon2,Summon3,strPhone;
+    public static String strImagePath, Summon1,Summon2,Summon3,strPhone, strEventType;
     public static Screen screen;
 
     public static void main(String[] args)throws Exception {
@@ -45,6 +45,7 @@ public class umamusume {
         QuickSummon = Boolean.parseBoolean(prop.get("Quick_Summon").toString());
         strPhone = prop.get("Phone").toString();
         isSlimeBlast = Boolean.parseBoolean(prop.get("Slime_Blast").toString());
+        strEventType = prop.get("event_type").toString();
 
         //set chromedriver path
         System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\chromedriver.exe");

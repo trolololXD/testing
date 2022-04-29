@@ -17,23 +17,27 @@ public class event_auto {
                 umamusume.clickImage(screen,strImagePath , "btnOK" + ".png");
             }
 
-            if(umamusume.isRelicBuster){
+             umamusume.waitUntilImage(screen,strImagePath , "btnAtk" + ".png");
+             Thread.sleep(intWaitTime);
+
+            if(umamusume.strEventType.equals("Ougi")){
                 if(umamusume.isExistScreen(screen,strImagePath , "btnOugiOff" + ".png")){
                     umamusume.clickImage(screen,strImagePath , "btnOugiOff" + ".png");
                 }
                 umamusume.clickImage(screen,strImagePath , "imgDjeetaRelicBuster" + ".png");
                 umamusume.clickImage(screen,strImagePath , "btnEngage" + ".png");
-                //v.1.2.0
                 umamusume.clickImage(screen,strImagePath , "btnLimitBurst" + ".png");
-            }
-
-             umamusume.waitUntilImage(screen,strImagePath , "btnAtk" + ".png");
-             Thread.sleep(intWaitTime);
-
-            if(!umamusume.isSlimeBlast){
+                umamusume.clickImage(screen,strImagePath , "btnAtk" + ".png");
+                Thread.sleep(2000);
+                umamusume.clickImage(screen, strImagePath , "imgUmamusume" + ".png");
+            }else if(umamusume.strEventType.equals("Auto")){
                 umamusume.clickImage(screen,strImagePath , "btnAtk" + ".png");
                 umamusume.clickImage(screen,strImagePath , "btnSemiAuto" + ".png");
-            }else{
+            }else if (umamusume.strEventType.equals("Bubs")) {
+                umamusume.clickImage(screen, strImagePath , "btnSummon" + ".png");
+                Thread.sleep(1000);
+                umamusume.clickImage(screen, strImagePath , "imgUmamusume" + ".png");
+            }else if(umamusume.strEventType.equals("Slime Blast")) {
                 umamusume.clickImage(screen,strImagePath , "DjeetaSwordmaster" + ".png");
                 umamusume.clickImage(screen,strImagePath , "Awakening" + ".png");
                 umamusume.waitUntilImage(screen,strImagePath , "btnNext" + ".png");
@@ -44,10 +48,11 @@ public class event_auto {
                 umamusume.clickImage(screen,strImagePath , "GroundZero" + ".png");
                 umamusume.waitUntilImage(screen,strImagePath , "btnNext" + ".png");
                 umamusume.clickImage(screen,strImagePath , "btnNext" + ".png");
-             }
+            }
+
              umamusume.waitUntilImage(screen,strImagePath , "btnOK" + ".png");
              umamusume.clickImage(screen,strImagePath , "btnOK" + ".png");
-            umamusume.clickImage(screen, strImagePath , "imgUmamusume" + ".png");
+             umamusume.clickImage(screen, strImagePath , "imgUmamusume" + ".png");
         }
         System.exit(0);
     }
