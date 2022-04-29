@@ -22,7 +22,7 @@ public class umamusume {
     public static boolean isRelicBuster;
     public static int intTotalLoop;
     public static int intWaitTime;
-    public static boolean isOugi,QuickSummon;
+    public static boolean isOugi,QuickSummon, isSlimeBlast;
     public static String strImagePath, Summon1,Summon2,Summon3,strPhone;
     public static Screen screen;
 
@@ -44,6 +44,7 @@ public class umamusume {
         Summon2 = prop.get("Summon2").toString();
         QuickSummon = Boolean.parseBoolean(prop.get("Quick_Summon").toString());
         strPhone = prop.get("Phone").toString();
+        isSlimeBlast = Boolean.parseBoolean(prop.get("Slime_Blast").toString());
 
         //set chromedriver path
         System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\chromedriver.exe");
@@ -170,7 +171,11 @@ public class umamusume {
             }catch (FindFailed e) {
                 System.out.println("Retrying to click the image..." + imgName);
                 if(umamusume.isExistScreen(screen, imgPath, "imgBuff" + ".png")){
+                    umamusume.clickImage(screen,strImagePath , "btnFullAutoOn" + ".png");
+                    Thread.sleep(intWaitTime*2);
                     umamusume.clickImage(screen,imgPath , "btnSummon" + ".png");
+                    umamusume.clickImage(screen,strImagePath , "btnFullAuto" + ".png");
+                    Thread.sleep(intWaitTime);
                 }
             }
         }
