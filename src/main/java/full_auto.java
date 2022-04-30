@@ -7,7 +7,7 @@ public class full_auto {
             umamusume.waitUntilImage(screen,strImagePath , "btnSelectSummon" + ".png");
             umamusume.findSummon(screen,strImagePath);
             umamusume.clickImage(screen,strImagePath , "btnOK" + ".png");
-            Thread.sleep(intWaitTime);
+            umamusume.ExplicitWait(intWaitTime);
 
             umamusume.CaptchaCheck(screen, strImagePath);
 
@@ -22,13 +22,13 @@ public class full_auto {
                   umamusume.clickImage(screen,strImagePath , "btnOugiOff" + ".png");
             }
             umamusume.waitUntilImage(screen,strImagePath , "btnFullAuto" + ".png");
-            Thread.sleep(intWaitTime);
+            umamusume.ExplicitWait(intWaitTime);
             umamusume.clickImage(screen,strImagePath , "btnFullAuto" + ".png");
             umamusume.clickImage(screen,strImagePath , "imgSummon" + ".png");
             umamusume.waitUntilImage(screen,strImagePath , "imgSummonToCall" + ".png");
             umamusume.clickImage(screen,strImagePath , "imgSummonToCall" + ".png");
             umamusume.clickImage(screen,strImagePath , "btnOK" + ".png");
-            Thread.sleep(intWaitTime);
+            umamusume.ExplicitWait(intWaitTime);
             umamusume.waitUntilImage(screen,strImagePath , "btnOK" + ".png");
             umamusume.clickImage(screen,strImagePath , "btnOK" + ".png");
         }

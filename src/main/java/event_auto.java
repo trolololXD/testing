@@ -7,7 +7,7 @@ public class event_auto {
             umamusume.waitUntilImage(screen,strImagePath , "btnSelectSummon" + ".png");
             umamusume.findSummon(screen,strImagePath);
             umamusume.clickImage(screen,strImagePath , "btnOK" + ".png");
-            Thread.sleep(intWaitTime);
+            umamusume.ExplicitWait(intWaitTime);
 
              umamusume.CaptchaCheck(screen, strImagePath);
 
@@ -18,9 +18,9 @@ public class event_auto {
             }
 
              umamusume.waitUntilImage(screen,strImagePath , "btnAtk" + ".png");
-             Thread.sleep(intWaitTime);
+             umamusume.ExplicitWait(intWaitTime);
 
-            if(umamusume.strEventType.equals("Ougi")){
+            if(umamusume.strEventType.equalsIgnoreCase("Ougi")){
                 if(umamusume.isExistScreen(screen,strImagePath , "btnOugiOff" + ".png")){
                     umamusume.clickImage(screen,strImagePath , "btnOugiOff" + ".png");
                 }
@@ -28,22 +28,22 @@ public class event_auto {
                 umamusume.clickImage(screen,strImagePath , "btnEngage" + ".png");
                 umamusume.clickImage(screen,strImagePath , "btnLimitBurst" + ".png");
                 umamusume.clickImage(screen,strImagePath , "btnAtk" + ".png");
-                Thread.sleep(2000);
+                umamusume.ExplicitWait(intWaitTime);
                 umamusume.clickImage(screen, strImagePath , "imgUmamusume" + ".png");
-            }else if(umamusume.strEventType.equals("Auto")){
+            }else if(umamusume.strEventType.equalsIgnoreCase("Auto")){
                 umamusume.clickImage(screen,strImagePath , "btnAtk" + ".png");
                 umamusume.clickImage(screen,strImagePath , "btnSemiAuto" + ".png");
-            }else if (umamusume.strEventType.equals("Bubs")) {
+            }else if (umamusume.strEventType.equalsIgnoreCase("Bubs")) {
                 umamusume.clickImage(screen, strImagePath , "btnSummon" + ".png");
                 Thread.sleep(1000);
                 umamusume.clickImage(screen, strImagePath , "imgUmamusume" + ".png");
-            }else if(umamusume.strEventType.equals("Slime Blast")) {
+            }else if(umamusume.strEventType.equalsIgnoreCase("Slime Blast")) {
                 umamusume.clickImage(screen,strImagePath , "DjeetaSwordmaster" + ".png");
                 umamusume.clickImage(screen,strImagePath , "Awakening" + ".png");
                 umamusume.waitUntilImage(screen,strImagePath , "btnNext" + ".png");
                 umamusume.clickImage(screen,strImagePath , "btnNext" + ".png");
                 umamusume.waitUntilImage(screen,strImagePath , "btnAtk" + ".png");
-                Thread.sleep(intWaitTime);
+                umamusume.ExplicitWait(intWaitTime);
                 umamusume.clickImage(screen,strImagePath , "Sarasa" + ".png");
                 umamusume.clickImage(screen,strImagePath , "GroundZero" + ".png");
                 umamusume.waitUntilImage(screen,strImagePath , "btnNext" + ".png");

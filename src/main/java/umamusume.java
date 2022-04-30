@@ -22,8 +22,8 @@ public class umamusume {
     public static boolean isRelicBuster;
     public static int intTotalLoop;
     public static int intWaitTime;
-    public static boolean isOugi,QuickSummon, isSlimeBlast;
-    public static String strImagePath, Summon1,Summon2,Summon3,strPhone, strEventType;
+    public static boolean isOugi,QuickSummon;
+    public static String strImagePath, Summon1,Summon2,strPhone, strEventType, strAutomationType;
     public static Screen screen;
 
     public static void main(String[] args)throws Exception {
@@ -35,7 +35,7 @@ public class umamusume {
         screen = new Screen();
 
         //get config data
-        String strAutomationType = prop.get("automation_type").toString();
+        strAutomationType = prop.get("automation_type").toString();
         intTotalLoop = Integer.parseInt(prop.get("total_loop").toString());
         intWaitTime = Integer.parseInt(prop.get("wait_time").toString());
         isRelicBuster = Boolean.parseBoolean(prop.get("Relic_Buster").toString());
@@ -44,7 +44,6 @@ public class umamusume {
         Summon2 = prop.get("Summon2").toString();
         QuickSummon = Boolean.parseBoolean(prop.get("Quick_Summon").toString());
         strPhone = prop.get("Phone").toString();
-        isSlimeBlast = Boolean.parseBoolean(prop.get("Slime_Blast").toString());
         strEventType = prop.get("event_type").toString();
 
         //set chromedriver path
@@ -100,6 +99,7 @@ public class umamusume {
                     matchImage.click();
                 }
                 isClicked = true;
+                System.out.println("Clicking on the image - " + imgName);
             } catch (FindFailed e) {
                 System.out.println("Retrying to click the image..." + imgName);
             }
@@ -170,13 +170,15 @@ public class umamusume {
                 Match matchImage = screen.find(new Pattern(img));
                 isExist = true;
             }catch (FindFailed e) {
-                System.out.println("Retrying to click the image..." + imgName);
-                if(umamusume.isExistScreen(screen, imgPath, "imgBuff" + ".png")){
-                    umamusume.clickImage(screen,strImagePath , "btnFullAutoOn" + ".png");
-                    Thread.sleep(intWaitTime*2);
-                    umamusume.clickImage(screen,imgPath , "btnSummon" + ".png");
-                    umamusume.clickImage(screen,strImagePath , "btnFullAuto" + ".png");
-                    Thread.sleep(intWaitTime);
+                System.out.println("Waiting for image - " + imgName + " to be displayed.");
+                if(strAutomationType.equals("full_auto")){
+                    if(umamusume.isExistScreen(screen, imgPath, "imgBuff" + ".png")){
+                        umamusume.clickImage(screen,strImagePath , "btnFullAutoOn" + ".png");
+                        umamusume.ExplicitWait(intWaitTime*2);
+                        umamusume.clickImage(screen,imgPath , "btnSummon" + ".png");
+                        umamusume.clickImage(screen,strImagePath , "btnFullAuto" + ".png");
+                        umamusume.ExplicitWait(intWaitTime);
+                    }
                 }
             }
         }
@@ -238,6 +240,11 @@ public class umamusume {
         Thread.sleep(5000);
         Robot robot = new Robot();
         robot.keyPress(KeyEvent.VK_ENTER);
+    }
+
+    public static void ExplicitWait(int intWaitTime)throws Exception{
+        System.out.println("Waiting for " + intWaitTime/1000 + " seconds");
+        Thread.sleep(intWaitTime);
     }
 
     //end of line
