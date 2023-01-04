@@ -1,10 +1,7 @@
-import javazoom.jl.player.JavaSoundAudioDevice;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.python.google.common.base.Stopwatch;
 import org.sikuli.script.*;
 import org.springframework.util.StopWatch;
-import javazoom.jl.player.Player;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import javax.sound.sampled.AudioInputStream;
@@ -23,8 +20,9 @@ public class umamusume {
     public static int intTotalLoop;
     public static int intWaitTime;
     public static boolean isOugi,QuickSummon;
-    public static String strImagePath, Summon1,Summon2,strPhone, strEventType, strAutomationType;
+    public static String strImagePath, Summon1,Summon2,strPhone, strEventType, strAutomationType, strMCSkin;
     public static Screen screen;
+    public static boolean isReset = false;
 
     public static void main(String[] args)throws Exception {
         String[] strPath = umamusume.class.getProtectionDomain().getCodeSource().getLocation().getPath().split("/");
@@ -43,8 +41,9 @@ public class umamusume {
         Summon1 = prop.get("Summon1").toString();
         Summon2 = prop.get("Summon2").toString();
         QuickSummon = Boolean.parseBoolean(prop.get("Quick_Summon").toString());
-        strPhone = prop.get("Phone").toString();
+        //strPhone = prop.get("Phone").toString();
         strEventType = prop.get("event_type").toString();
+        strMCSkin = prop.get("MC_Skin").toString();
 
         //set chromedriver path
         System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\chromedriver.exe");
@@ -103,6 +102,11 @@ public class umamusume {
             } catch (FindFailed e) {
                 System.out.println("Retrying to click the image..." + imgName);
             }
+        }
+        if(!isClicked){
+            isReset = true;
+        }else{
+            isReset = false;
         }
         stopWatch.stop();
     }
@@ -216,18 +220,11 @@ public class umamusume {
         }
     }
 
-    public static void PlaySong(String imgPath)throws Exception{
-        FileInputStream fs = new FileInputStream(imgPath + "Hatsune Miku - Levan Polka.mp3");
-        Player player = new Player(fs);
-        player.play();
-    }
-
     public static void CaptchaCheck(Screen screen, String imgPath)throws Exception{
         if(umamusume.isExistScreen(screen,imgPath, "txtCaptcha" + ".png") || umamusume.isExistScreen(screen,imgPath, "txtEnterVerification" + ".png") ||
                 umamusume.isExistScreen(screen,imgPath, "txtVerification" + ".png")){
             do{
-                umamusume.PlaySong(imgPath);
-                sendWA(strPhone);
+                //sendWA(strPhone);
             }while(umamusume.isExistScreen(screen,imgPath, "txtCaptcha" + ".png"));
         }
     }

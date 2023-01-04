@@ -15,6 +15,10 @@ public class event_auto {
                 umamusume.waitUntilImage(screen,strImagePath , "btnUse" + ".png");
                 umamusume.useElixir(screen,strImagePath , "btnUse" + ".png");
                 umamusume.clickImage(screen,strImagePath , "btnOK" + ".png");
+
+                if(umamusume.isReset){
+                    continue;
+                }
             }
 
              umamusume.waitUntilImage(screen,strImagePath , "btnAtk" + ".png");
@@ -24,7 +28,7 @@ public class event_auto {
                 if(umamusume.isExistScreen(screen,strImagePath , "btnOugiOff" + ".png")){
                     umamusume.clickImage(screen,strImagePath , "btnOugiOff" + ".png");
                 }
-                umamusume.clickImage(screen,strImagePath , "imgDjeetaRelicBuster" + ".png");
+                umamusume.clickImage(screen,strImagePath , umamusume.strMCSkin + ".png");
                 umamusume.clickImage(screen,strImagePath , "btnEngage" + ".png");
                 umamusume.clickImage(screen,strImagePath , "btnLimitBurst" + ".png");
                 umamusume.clickImage(screen,strImagePath , "btnAtk" + ".png");
@@ -35,6 +39,7 @@ public class event_auto {
                 umamusume.clickImage(screen,strImagePath , "btnSemiAuto" + ".png");
             }else if (umamusume.strEventType.equalsIgnoreCase("Bubs")) {
                 umamusume.clickImage(screen, strImagePath , "btnSummon" + ".png");
+                //umamusume.clickImage(screen,strImagePath , "btnAtk" + ".png");
                 Thread.sleep(1000);
                 umamusume.clickImage(screen, strImagePath , "imgUmamusume" + ".png");
             }else if(umamusume.strEventType.equalsIgnoreCase("Slime Blast")) {

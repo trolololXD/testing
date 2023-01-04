@@ -6,11 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="GBFGOESBRR" />
+        <module name="Bot_GBF" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="GBFGOESBRR" target="8" />
+      <module name="GBFGOESBRR" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
