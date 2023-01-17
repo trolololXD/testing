@@ -1,34 +1,27 @@
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.sikuli.script.*;
 import org.springframework.util.StopWatch;
-import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.Mixer;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.FileInputStream;
-import java.time.Duration;
 import java.util.List;
 import java.util.Properties;
-import java.util.Timer;
-
 public class umamusume {
-    public static WebDriver webDriver;
-    public static boolean isRelicBuster;
+    public static String isRelicBuster;
     public static int intTotalLoop;
     public static int intWaitTime;
     public static boolean isOugi,QuickSummon;
-    public static String strImagePath, Summon1,Summon2,strPhone, strEventType, strAutomationType, strMCSkin;
+    public static String strImagePath, Summon1,Summon2,strPhone, strEventType, strAutomationType, strMCSkin, strDjeetaOrSarasa, V1orV2;
     public static Screen screen;
     public static boolean isReset = false;
+    public static String strImageToCheck;
 
     public static void main(String[] args)throws Exception {
         String[] strPath = umamusume.class.getProtectionDomain().getCodeSource().getLocation().getPath().split("/");
-        strImagePath = getPathExisting(strPath) + "image\\";
+        strImagePath = getPathExisting(strPath) + "..\\image\\"; //prod
+        //strImagePath = getPathExisting(strPath) + "image\\"; //dev
         Properties prop = new Properties();
-        String strConfigName = "config.cfg";
+        String strConfigName = "..\\config.cfg"; //prod
+        //String strConfigName = "config.cfg"; //dev
         loadConfig(prop,strConfigName);
         screen = new Screen();
 
@@ -36,7 +29,7 @@ public class umamusume {
         strAutomationType = prop.get("automation_type").toString();
         intTotalLoop = Integer.parseInt(prop.get("total_loop").toString());
         intWaitTime = Integer.parseInt(prop.get("wait_time").toString());
-        isRelicBuster = Boolean.parseBoolean(prop.get("Relic_Buster").toString());
+        isRelicBuster = prop.get("Raid_Auto_Type").toString();
         isOugi = Boolean.parseBoolean(prop.get("Ougi").toString());
         Summon1 = prop.get("Summon1").toString();
         Summon2 = prop.get("Summon2").toString();
@@ -44,30 +37,42 @@ public class umamusume {
         //strPhone = prop.get("Phone").toString();
         strEventType = prop.get("event_type").toString();
         strMCSkin = prop.get("MC_Skin").toString();
-
-        //set chromedriver path
-        System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\chromedriver.exe");
-        System.out.println(System.getProperty("webdriver.chrome.driver"));
+        strDjeetaOrSarasa = prop.get("DjeetaOrSarasa").toString();
+        V1orV2 = prop.get("V1orV2").toString();
+        strImageToCheck = prop.get("Image_to_Check").toString();
 
         try{
-            if(strAutomationType.equals("event_auto")){
-                event_auto objEventAuto = new event_auto();
-                objEventAuto.run(screen, strImagePath, intTotalLoop, intWaitTime);
-            }else if(strAutomationType.equals("raid_auto")){
-                raid_auto objRaidAuto = new raid_auto();
-                objRaidAuto.run(screen, strImagePath, intTotalLoop, intWaitTime);
-            }else if(strAutomationType.equals("full_auto")){
-                full_auto objFullAuto = new full_auto();
-                objFullAuto.run(screen, strImagePath, intTotalLoop, intWaitTime);
+            if(args[0].equalsIgnoreCase("CheckImage")) {
+                ImageCheck.run();
             }
         }catch(Exception e){
-            e.printStackTrace();
+            try{
+                if(strAutomationType.equals("event_auto")){
+                    event_auto objEventAuto = new event_auto();
+                    objEventAuto.run(screen, strImagePath, intTotalLoop, intWaitTime);
+                }else if(strAutomationType.equals("raid_auto")){
+                    raid_auto objRaidAuto = new raid_auto();
+                    objRaidAuto.run(screen, strImagePath, intTotalLoop, intWaitTime);
+                }else if(strAutomationType.equals("full_auto")){
+                    full_auto objFullAuto = new full_auto();
+                    objFullAuto.run(screen, strImagePath, intTotalLoop, intWaitTime);
+                }
+            }catch(Exception f){
+                e.printStackTrace();
+            }
         }
+
+
+
+
+
+
 
     }
 
-    public static void useElixir(Screen screen, String imgPath, String imgName){
+    public static void useElixir(Screen screen, String imgPath, String imgName)throws Exception{
         String img = imgPath+imgName;
+        Robot robot = new Robot();
         boolean isClicked = false;
         while (!isClicked) {
             try {
@@ -75,7 +80,10 @@ public class umamusume {
                 Match matchImage = arrayMatch.get(1);
                 matchImage.mouseMove();
                 matchImage.click();
+                robot.keyPress(KeyEvent.VK_END);
+                robot.keyPress(KeyEvent.VK_ENTER);
                 isClicked = true;
+                umamusume.clickImage(screen,strImagePath , "btnUse" + ".png");
             } catch (Exception e) {
                 System.out.println("Retrying to click the image..." + imgName);
             }
@@ -83,17 +91,18 @@ public class umamusume {
     }
 
     public static void clickImage(Screen screen, String imgPath, String imgName)throws Exception {
+        Thread.sleep(100);
         String img = imgPath+imgName;
         StopWatch stopWatch = new StopWatch();
         boolean isClicked = false;
         stopWatch.start();
         while (!isClicked && stopWatch.getTotalTimeSeconds() <= 10.00) {
             try {
-                if(img.contains("btnUse")){
-                   List<Match> iterMatch = screen.findAllList(new Pattern(img));
-                   Match matchImage = iterMatch.get(1);
-                   matchImage.click();
-                }else{
+                if (img.contains("btnUse")) {
+                    List<Match> arrayMatch = screen.findAllByRow(new Pattern(img));
+                    Match matchImage = arrayMatch.get(1);
+                    if(matchImage.getScore() > 0.90) matchImage.click();
+                } else {
                     Match matchImage = screen.find(new Pattern(img));
                     matchImage.click();
                 }
@@ -102,11 +111,6 @@ public class umamusume {
             } catch (FindFailed e) {
                 System.out.println("Retrying to click the image..." + imgName);
             }
-        }
-        if(!isClicked){
-            isReset = true;
-        }else{
-            isReset = false;
         }
         stopWatch.stop();
     }
@@ -130,12 +134,12 @@ public class umamusume {
 
     public static boolean isExistScreen(Screen screen, String imgPath, String imgName){
         String img = imgPath + imgName;
-        boolean isExist;
+        boolean isExist = false;
         try {
-            isExist = screen.find(new Pattern(img)).isValid();
+             if(screen.find(new Pattern(img)).getScore() > 0.90)
+                 isExist = true;
         } catch (FindFailed e) {
-            System.out.println("Retrying to click the image..." + imgName);
-            isExist = false;
+            System.out.println("Image Not Exist On Screen...");
         }
         return isExist;
     }
@@ -145,16 +149,20 @@ public class umamusume {
         Thread.sleep(2000);
         while(isExistScreen(screen,strImagePath , "btnSelectSummon" + ".png")){
             clickImage(screen,strImagePath , "btnSelectSummon" + ".png");
+            Thread.sleep(2000);
+            if(umamusume.isExistScreen(screen, strImagePath, "btnQuest.png")){
+                umamusume.clickImage(screen,strImagePath , "imgInputRaid" + ".png");
+            }
 
             if(isExistScreen(screen,strImagePath , "btnOK" + ".png")) {
                 clickImage(screen, strImagePath, "btnOK" + ".png");
+                Thread.sleep(2000);
             }
-            Thread.sleep(2000);
 
-            if(isExistScreen(screen,strImagePath , "btnPendingBattle" + ".png")){
-                clickImage(screen,strImagePath , "btnPendingBattle" + ".png");
+            if(isExistScreen(screen,strImagePath , "btnPendingBattle" + ".png")) {
+                clickImage(screen, strImagePath, "btnPendingBattle" + ".png");
+                Thread.sleep(2000);
             }
-            Thread.sleep(1000);
         }
     }
 
@@ -169,6 +177,7 @@ public class umamusume {
     public static void waitUntilImage(Screen screen, String imgPath, String imgName)throws Exception{
         String img = imgPath+imgName;
         boolean isExist = false;
+        int counter = 0;
         while (!isExist) {
             try {
                 Match matchImage = screen.find(new Pattern(img));
@@ -176,15 +185,69 @@ public class umamusume {
             }catch (FindFailed e) {
                 System.out.println("Waiting for image - " + imgName + " to be displayed.");
                 if(strAutomationType.equals("full_auto")){
-                    if(umamusume.isExistScreen(screen, imgPath, "imgBuff" + ".png")){
-                        umamusume.clickImage(screen,strImagePath , "btnFullAutoOn" + ".png");
-                        umamusume.ExplicitWait(intWaitTime*2);
-                        umamusume.clickImage(screen,imgPath , "btnSummon" + ".png");
-                        umamusume.clickImage(screen,strImagePath , "btnFullAuto" + ".png");
-                        umamusume.ExplicitWait(intWaitTime);
+                   checkTrigger(screen, strImagePath);
+                   checkDead(screen, strImagePath);
+                }else if(strAutomationType.equalsIgnoreCase("raid_auto")){
+                    if(umamusume.isExistScreen(screen, strImagePath, "imgDjeetaBattleEnded.png")){
+                        umamusume.clickImage(screen,strImagePath , "imgInputRaid" + ".png");
+                    }else if(umamusume.isExistScreen(screen, strImagePath, "btnQuest.png")){
+                        umamusume.clickImage(screen,strImagePath , "imgInputRaid" + ".png");
+                    }else if(umamusume.isExistScreen(screen, strImagePath, "btnNext.png")){
+                        umamusume.clickImage(screen,strImagePath , "imgInputRaid" + ".png");
                     }
                 }
             }
+        }
+    }
+
+    public static void checkTrigger(Screen screen, String imgPath)throws Exception{
+        System.out.println("Check Trigger...");
+            if(umamusume.isExistScreen(screen, imgPath, "imgBuff" + ".png")){
+                    umamusume.clickImage(screen, strImagePath , "imgUmamusume" + ".png");
+                    ExplicitWait(intWaitTime);
+                    umamusume.waitUntilImage(screen,strImagePath , "btnAtk" + ".png");
+                    umamusume.clickImage(screen, strImagePath , "btnSummon" + ".png");
+                    ExplicitWait(2*intWaitTime);
+                    for (int i = 0; i < 2; i++) {
+                        umamusume.clickImage(screen, strImagePath, "btnHeal" + ".png");
+                        umamusume.clickImage(screen, strImagePath, "btnBluePot" + ".png");
+                        umamusume.clickImage(screen,strImagePath , "btnOK" + ".png");
+                    }
+                    umamusume.clickImage(screen,strImagePath , "btnFullAuto" + ".png");
+            }
+    }
+
+    public static void checkDead(Screen screen, String imgPath)throws Exception{
+        System.out.println("Check Dead...");
+        if(umamusume.isExistScreen(screen, imgPath, "imgPartyDead" + ".png")){
+            ExplicitWait(2*intWaitTime);
+            umamusume.clickImage(screen, strImagePath , "imgPartyDead" + ".png");
+            umamusume.clickImage(screen, strImagePath , "imgUmamusume" + ".png");
+            umamusume.waitUntilImage(screen,strImagePath , "btnCancel" + ".png");
+            umamusume.clickImage(screen, strImagePath , "btnCancel" + ".png");
+            Thread.sleep(1000);
+            umamusume.clickImage(screen, strImagePath , "btnCancel" + ".png");
+            Thread.sleep(1000);
+            umamusume.clickImage(screen, strImagePath , "btnClose" + ".png");
+            Thread.sleep(1000);
+            umamusume.clickImage(screen, strImagePath , "btnHeal" + ".png");
+            Thread.sleep(1000);
+            umamusume.clickImage(screen, strImagePath , "imgRevive" + ".png");
+            Thread.sleep(1000);
+            umamusume.clickImage(screen,strImagePath , "btnOK" + ".png");
+            Thread.sleep(1000);
+            for (int i = 0; i < 2; i++) {
+                umamusume.clickImage(screen, strImagePath, "btnHeal" + ".png");
+                umamusume.clickImage(screen, strImagePath, "btnBluePot" + ".png");
+                Thread.sleep(1000);
+                if(umamusume.isExistScreen(screen, strImagePath , "btnOK" + ".png")){
+                    umamusume.clickImage(screen, strImagePath , "btnOK" + ".png");
+                }else{
+                    umamusume.clickImage(screen,strImagePath , "btnCancel" + ".png");
+                }
+            }
+
+            umamusume.clickImage(screen,strImagePath , "btnFullAuto" + ".png");
         }
     }
 
@@ -211,11 +274,17 @@ public class umamusume {
                 robot.keyPress(KeyEvent.VK_PAGE_DOWN);
                 Thread.sleep(1000);
                 Counter++;
-                if(Counter >= 4){
+                if(Counter == 4){
                     robot.keyPress(KeyEvent.VK_HOME);
                     Thread.sleep(1000);
                     img = imgPath + Summon2;
                 }
+                if(Counter >= 10)
+                {
+                    clickImage(screen,strImagePath , "btnSelectSummon" + ".png");
+                    isFound = true;
+                }
+
             }
         }
     }
@@ -229,20 +298,31 @@ public class umamusume {
         }
     }
 
-    public static void sendWA(String strPhone)throws Exception{
-        webDriver = new ChromeDriver();
-        String strUrlWA = "https://api.whatsapp.com/send?phone="+strPhone+"&text=CAPTCHA";
-        webDriver.get(strUrlWA);
-        clickImage(screen, strImagePath, "openWhatsapp.png");
-        Thread.sleep(5000);
-        Robot robot = new Robot();
-        robot.keyPress(KeyEvent.VK_ENTER);
-    }
+//    public static void sendWA(String strPhone)throws Exception{
+//        webDriver = new ChromeDriver();
+//        String strUrlWA = "https://api.whatsapp.com/send?phone="+strPhone+"&text=CAPTCHA";
+//        webDriver.get(strUrlWA);
+//        clickImage(screen, strImagePath, "openWhatsapp.png");
+//        Thread.sleep(5000);
+//        Robot robot = new Robot();
+//        robot.keyPress(KeyEvent.VK_ENTER);
+//    }
 
     public static void ExplicitWait(int intWaitTime)throws Exception{
         System.out.println("Waiting for " + intWaitTime/1000 + " seconds");
         Thread.sleep(intWaitTime);
     }
+
+    public static void PressBack()throws Exception{
+        Robot robot = new Robot();
+        robot.keyPress(KeyEvent.VK_ALT);
+        robot.keyPress(KeyEvent.VK_LEFT);
+        Thread.sleep(500);
+        robot.keyRelease(KeyEvent.VK_ALT);
+        robot.keyRelease(KeyEvent.VK_LEFT);
+    }
+
+
 
     //end of line
 }
