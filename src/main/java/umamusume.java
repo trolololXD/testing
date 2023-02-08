@@ -1,5 +1,5 @@
 import org.sikuli.script.*;
-import org.springframework.util.StopWatch;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.FileInputStream;
@@ -12,12 +12,14 @@ public class umamusume {
     public static boolean isOugi,QuickSummon;
     public static String strImagePath, Summon1,Summon2,strPhone, strEventType, strAutomationType, strMCSkin, strDjeetaOrSarasa, V1orV2;
     public static Screen screen;
+    public static String characterName, characterSkill;
     public static boolean isReset = false;
     public static String strImageToCheck;
 
     public static void main(String[] args)throws Exception {
         String[] strPath = umamusume.class.getProtectionDomain().getCodeSource().getLocation().getPath().split("/");
         strImagePath = getPathExisting(strPath) + "..\\image\\"; //prod
+        System.out.println("Image Folder : " + strImagePath);
         //strImagePath = getPathExisting(strPath) + "image\\"; //dev
         Properties prop = new Properties();
         String strConfigName = "..\\config.cfg"; //prod
@@ -40,6 +42,9 @@ public class umamusume {
         strDjeetaOrSarasa = prop.get("DjeetaOrSarasa").toString();
         V1orV2 = prop.get("V1orV2").toString();
         strImageToCheck = prop.get("Image_to_Check").toString();
+        characterName = prop.get("Character_Name").toString();
+        characterSkill = prop.get("Character_Skill").toString();
+
 
         try{
             if(args[0].equalsIgnoreCase("CheckImage")) {
@@ -56,6 +61,9 @@ public class umamusume {
                 }else if(strAutomationType.equals("full_auto")){
                     full_auto objFullAuto = new full_auto();
                     objFullAuto.run(screen, strImagePath, intTotalLoop, intWaitTime);
+                }else if(strAutomationType.equalsIgnoreCase("arcarum")){
+                    Arcarum objArcarum = new Arcarum();
+                    objArcarum.run(screen, strImagePath, intTotalLoop, intWaitTime);
                 }
             }catch(Exception f){
                 e.printStackTrace();
@@ -90,13 +98,12 @@ public class umamusume {
         }
     }
 
-    public static void clickImage(Screen screen, String imgPath, String imgName)throws Exception {
+    public static boolean clickImage(Screen screen, String imgPath, String imgName)throws Exception {
         Thread.sleep(100);
         String img = imgPath+imgName;
-        StopWatch stopWatch = new StopWatch();
         boolean isClicked = false;
-        stopWatch.start();
-        while (!isClicked && stopWatch.getTotalTimeSeconds() <= 10.00) {
+        int Counter = 0;
+        while (!isClicked && Counter <= 100) {
             try {
                 if (img.contains("btnUse")) {
                     List<Match> arrayMatch = screen.findAllByRow(new Pattern(img));
@@ -110,9 +117,13 @@ public class umamusume {
                 System.out.println("Clicking on the image - " + imgName);
             } catch (FindFailed e) {
                 System.out.println("Retrying to click the image..." + imgName);
+                Counter++;
             }
         }
-        stopWatch.stop();
+        if(Counter >= 100){
+            throw new Exception ("Click Image Failed After Trying 100 Times");
+        }
+        return isClicked;
     }
 
     public static void doubleClickImage(Screen screen, String imgPath, String imgName) {
@@ -149,20 +160,24 @@ public class umamusume {
         Thread.sleep(2000);
         while(isExistScreen(screen,strImagePath , "btnSelectSummon" + ".png")){
             clickImage(screen,strImagePath , "btnSelectSummon" + ".png");
-            Thread.sleep(2000);
-            if(umamusume.isExistScreen(screen, strImagePath, "btnQuest.png")){
-                umamusume.clickImage(screen,strImagePath , "imgInputRaid" + ".png");
-            }
+            Thread.sleep(3000);
 
-            if(isExistScreen(screen,strImagePath , "btnOK" + ".png")) {
-                clickImage(screen, strImagePath, "btnOK" + ".png");
-                Thread.sleep(2000);
-            }
+            PressBack();
 
-            if(isExistScreen(screen,strImagePath , "btnPendingBattle" + ".png")) {
-                clickImage(screen, strImagePath, "btnPendingBattle" + ".png");
-                Thread.sleep(2000);
-            }
+
+//            if(umamusume.isExistScreen(screen, strImagePath, "btnQuest.png")){
+//                umamusume.clickImage(screen,strImagePath , "imgInputRaid" + ".png");
+//            }
+//
+//            if(isExistScreen(screen,strImagePath , "btnOK" + ".png")) {
+//                clickImage(screen, strImagePath, "btnOK" + ".png");
+//                Thread.sleep(2000);
+//            }
+//
+//            if(isExistScreen(screen,strImagePath , "btnPendingBattle" + ".png")) {
+//                clickImage(screen, strImagePath, "btnPendingBattle" + ".png");
+//                Thread.sleep(2000);
+//            }
         }
     }
 
@@ -193,7 +208,9 @@ public class umamusume {
                     }else if(umamusume.isExistScreen(screen, strImagePath, "btnQuest.png")){
                         umamusume.clickImage(screen,strImagePath , "imgInputRaid" + ".png");
                     }else if(umamusume.isExistScreen(screen, strImagePath, "btnNext.png")){
-                        umamusume.clickImage(screen,strImagePath , "imgInputRaid" + ".png");
+                        throw new Exception ("Button Next Found - Restarting Bot");
+                    }else if(umamusume.isExistScreen(screen, strImagePath, "imgPartyDead.png")){
+                        throw new Exception ("Party MODYAR - Restarting Bot");
                     }
                 }
             }

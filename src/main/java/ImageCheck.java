@@ -8,13 +8,12 @@ public class ImageCheck {
         run();
     }
     public static void run(){
-        String[] strPath = umamusume.class.getProtectionDomain().getCodeSource().getLocation().getPath().split("/");
-        String strImagePath = umamusume.getPathExisting(strPath) + "image\\"; //dev
-        Screen screenCheckImage = umamusume.screen;
-        screenCheckImage = new Screen();
+        String strImagePath = umamusume.strImagePath;
+        String imgToCheck = strImagePath + umamusume.strImageToCheck;
+        System.out.println("Image Folder : " + imgToCheck);
 
         try{
-            Match matchCheck = screenCheckImage.find(new Pattern(strImagePath + umamusume.strImageToCheck));
+            Match matchCheck = umamusume.screen.find(new Pattern(imgToCheck));
             matchCheck.mouseMove();
             System.out.println("IMAGE FOUND WITH SCORE OF : " + matchCheck.getScore());
         }catch(Exception e){
