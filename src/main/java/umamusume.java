@@ -10,7 +10,7 @@ public class umamusume {
     public static int intTotalLoop;
     public static int intWaitTime;
     public static boolean isOugi,QuickSummon;
-    public static String strImagePath, Summon1,Summon2,strPhone, strEventType, strAutomationType, strMCSkin, strDjeetaOrSarasa, V1orV2;
+    public static String strImagePath, Summon1,Summon2,strPhone, strEventType, strAutomationType, strMCSkin, strDjeetaOrSarasa, V1orV2, strArcarumType, strArcarumDefender , strArcarumTreasure;
     public static Screen screen;
     public static String characterName, characterSkill;
     public static boolean isReset = false;
@@ -44,6 +44,11 @@ public class umamusume {
         strImageToCheck = prop.get("Image_to_Check").toString();
         characterName = prop.get("Character_Name").toString();
         characterSkill = prop.get("Character_Skill").toString();
+        //add arcarum
+        strArcarumType = prop.get("arcarum_type"). toString();
+        strArcarumDefender = prop.get("arcarum_defender"). toString();
+        strArcarumTreasure = prop.get("arcarum_treasure"). toString();
+
 
 
         try{
