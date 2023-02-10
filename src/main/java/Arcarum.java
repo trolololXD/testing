@@ -8,6 +8,7 @@ public class Arcarum {
             try {
                 System.out.println("Start of Loop");
                 umamusume.clickImage(screen, strImagePath, "btnSandboxStage" + ".png");
+                umamusume.isExistScreen(screen, strImagePath, "arcarumimgzone" + ".png");
                 umamusume.waitUntilImage(screen,strImagePath, "arcarumimgzone" + ".png");
                 //arcarum treasure = true
                 if (umamusume.isExistScreen(screen, strImagePath, "treasurebox" + ".png")) {
